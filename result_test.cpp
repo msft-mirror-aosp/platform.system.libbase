@@ -19,6 +19,7 @@
 #include "errno.h"
 
 #include <istream>
+#include <memory>
 #include <string>
 #include <type_traits>
 
@@ -423,9 +424,11 @@ struct MyData {
   const int data;
   static int copy_constructed;
   static int move_constructed;
-  MyData(int d) : data(d) {}
+  explicit MyData(int d) : data(d) {}
   MyData(const MyData& other) : data(other.data) { copy_constructed++; }
   MyData(MyData&& other) : data(other.data) { move_constructed++; }
+  MyData& operator=(const MyData&) = delete;
+  MyData& operator=(MyData&&) = delete;
 };
 
 int MyData::copy_constructed = 0;
@@ -445,6 +448,44 @@ TEST(result, unwrap_does_not_incur_additional_copying) {
     EXPECT_EQ(2, MyData::move_constructed);
     return {};
   }();
+}
+
+TEST(result, supports_move_only_type) {
+  auto f = [](bool success) -> Result<std::unique_ptr<std::string>> {
+    if (success) return std::make_unique<std::string>("hello");
+    return Error() << "error";
+  };
+
+  auto g = [&](bool success) -> Result<std::unique_ptr<std::string>> {
+    auto r = OR_RETURN(f(success));
+    EXPECT_EQ("hello", *(r.get()));
+    return std::make_unique<std::string>("world");
+  };
+
+  auto s = g(true);
+  EXPECT_RESULT_OK(s);
+  EXPECT_EQ("world", *(s->get()));
+
+  auto t = g(false);
+  EXPECT_FALSE(t.ok());
+  EXPECT_EQ("error", t.error().message());
+}
+
+TEST(result, unique_ptr) {
+  using testing::Ok;
+
+  auto return_unique_ptr = [](bool success) -> Result<std::unique_ptr<int>> {
+    auto result = OR_RETURN(Result<std::unique_ptr<int>>(std::make_unique<int>(3)));
+    if (!success) {
+      return Error() << __func__ << " failed.";
+    }
+    return result;
+  };
+  Result<std::unique_ptr<int>> result1 = return_unique_ptr(false);
+  ASSERT_THAT(result1, Not(Ok()));
+  Result<std::unique_ptr<int>> result2 = return_unique_ptr(true);
+  ASSERT_THAT(result2, Ok());
+  EXPECT_EQ(**result2, 3);
 }
 
 struct ConstructorTracker {
