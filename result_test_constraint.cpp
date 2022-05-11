@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 The Android Open Source Project
+ * Copyright (C) 2022 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,17 +14,8 @@
  * limitations under the License.
  */
 
-#pragma once
-
-#include <stdint.h>
-
-namespace android {
-namespace base {
-uint64_t GetThreadId();
-}
-}  // namespace android
-
-#if defined(__GLIBC__) || defined(ANDROID_HOST_MUSL)
-// bionic has this Linux-specifix call, but glibc and musl don't.
-extern "C" int tgkill(int tgid, int tid, int sig);
-#endif
+// Since result has c++20 conditional behavior, we compile with std=c++20 to
+// ensure functionality in both cases. Instead of duplicating the file, we will
+// include, since this test is not linked against anything.
+// This test can be removed when we move to c++20.
+#include "result_test.cpp"
