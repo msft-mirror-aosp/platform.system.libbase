@@ -46,7 +46,11 @@ bool ReadFdToString(int fd, std::string* content) {
 }
 
 bool WriteStringToFd(const std::string& content, int fd) {
-  return WriteStringToFd(content, borrowed_fd(fd));
+  return WriteStringToFd(std::string_view(content), borrowed_fd(fd));
+}
+
+bool WriteStringToFd(const std::string& content, borrowed_fd fd) {
+  return WriteStringToFd(std::string_view(content), fd);
 }
 
 bool ReadFully(int fd, void* data, size_t byte_count) {
