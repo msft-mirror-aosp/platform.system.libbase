@@ -65,14 +65,6 @@ bool WriteFully(int fd, const void* data, size_t byte_count) {
   return WriteFully(borrowed_fd(fd), data, byte_count);
 }
 
-std::string Basename(const std::string& path) {
-  return Basename(std::string_view(path));
-}
-
-std::string Dirname(const std::string& path) {
-  return Dirname(std::string_view(path));
-}
-
 #if defined(__LP64__)
 #define MAPPEDFILE_FROMFD _ZN10MappedFile6FromFdEilmi
 #else
