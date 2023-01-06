@@ -284,6 +284,7 @@ cc_benchmark {
     defaults: ["libbase_cflags_defaults"],
 
     srcs: [
+        "file_benchmark.cpp",
         "format_benchmark.cpp",
         "function_ref_benchmark.cpp",
     ],
