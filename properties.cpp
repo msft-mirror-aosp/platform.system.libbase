@@ -221,8 +221,8 @@ bool WaitForPropertyCreation(const std::string& key,
   return (WaitForPropertyCreation(key, relative_timeout, start_time) != nullptr);
 }
 
-CachedProperty::CachedProperty(const char* property_name)
-    : property_name_(property_name),
+CachedProperty::CachedProperty(std::string property_name)
+    : property_name_(std::move(property_name)),
       prop_info_(nullptr),
       cached_area_serial_(0),
       cached_property_serial_(0),
@@ -230,6 +230,9 @@ CachedProperty::CachedProperty(const char* property_name)
       read_only_property_(nullptr) {
   static_assert(sizeof(cached_value_) == PROP_VALUE_MAX);
 }
+
+CachedProperty::CachedProperty(const char* property_name)
+    : CachedProperty(std::string(property_name)) {}
 
 const char* CachedProperty::Get(bool* changed) {
   std::optional<uint32_t> initial_property_serial = cached_property_serial_;
