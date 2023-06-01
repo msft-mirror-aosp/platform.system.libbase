@@ -232,7 +232,7 @@ CachedProperty::CachedProperty(const char* property_name)
 }
 
 const char* CachedProperty::Get(bool* changed) {
-  std::optional<uint32_t> initial_property_serial_ = cached_property_serial_;
+  std::optional<uint32_t> initial_property_serial = cached_property_serial_;
 
   // Do we have a `struct prop_info` yet?
   if (prop_info_ == nullptr) {
@@ -267,7 +267,7 @@ const char* CachedProperty::Get(bool* changed) {
   }
 
   if (changed) {
-    *changed = cached_property_serial_ != initial_property_serial_;
+    *changed = cached_property_serial_ != initial_property_serial;
   }
 
   if (is_read_only_) {
