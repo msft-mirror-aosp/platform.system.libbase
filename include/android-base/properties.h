@@ -75,6 +75,9 @@ bool WaitForPropertyCreation(const std::string& key, std::chrono::milliseconds r
 // this class helps optimize those lookups.
 class CachedProperty {
  public:
+  explicit CachedProperty(std::string property_name);
+
+  // Kept for ABI compatibility.
   explicit CachedProperty(const char* property_name);
 
   // Returns the current value of the underlying system property as cheaply as possible.
