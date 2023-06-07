@@ -280,6 +280,25 @@ const char* CachedProperty::Get(bool* changed) {
   }
 }
 
+const char* CachedProperty::WaitForChange(std::chrono::milliseconds relative_timeout) {
+  if (!prop_info_) {
+    auto start_time = std::chrono::steady_clock::now();
+    prop_info_ = WaitForPropertyCreation(property_name_, relative_timeout, start_time);
+    if (!prop_info_) {
+      return nullptr;
+    }
+  } else {
+    timespec ts;
+    DurationToTimeSpec(ts, relative_timeout);
+
+    uint32_t old_serial = cached_property_serial_.value_or(0);
+    uint32_t new_serial;
+    if (!__system_property_wait(prop_info_, old_serial, &new_serial, &ts)) return nullptr;
+  }
+
+  return Get(nullptr);
+}
+
 #endif
 
 }  // namespace base
