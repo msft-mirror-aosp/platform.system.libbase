@@ -162,6 +162,10 @@ cc_library {
         "//apex_available:anyapex",
         "//apex_available:platform",
     ],
+    header_abi_checker: {
+        enabled: true,
+        ref_dump_dirs: ["abi-dumps"],
+    },
 }
 
 cc_library_static {
