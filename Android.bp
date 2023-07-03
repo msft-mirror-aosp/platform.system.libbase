@@ -43,6 +43,11 @@ cc_defaults {
                 "-D_FILE_OFFSET_BITS=64",
             ],
         },
+        windows: {
+            cflags: [
+                "-D_POSIX_THREAD_SAFE_FUNCTIONS",
+            ],
+        },
     },
 }
 
