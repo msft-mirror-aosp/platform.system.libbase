@@ -43,6 +43,11 @@ cc_defaults {
                 "-D_FILE_OFFSET_BITS=64",
             ],
         },
+        windows: {
+            cflags: [
+                "-D_POSIX_THREAD_SAFE_FUNCTIONS",
+            ],
+        },
     },
 }
 
@@ -157,6 +162,10 @@ cc_library {
         "//apex_available:anyapex",
         "//apex_available:platform",
     ],
+    header_abi_checker: {
+        enabled: true,
+        ref_dump_dirs: ["abi-dumps"],
+    },
 }
 
 cc_library_static {
