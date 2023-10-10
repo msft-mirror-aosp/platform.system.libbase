@@ -1197,6 +1197,18 @@
    "name" : "_ZN7android4base17WriteStringToFileERKNSt3__112basic_stringIcNS1_11char_traitsIcEENS1_9allocatorIcEEEES9_jjjb"
   },
   {
+   "name" : "_ZN7android4base18CachedBoolProperty11GetOptionalEv"
+  },
+  {
+   "name" : "_ZN7android4base18CachedBoolProperty3GetEb"
+  },
+  {
+   "name" : "_ZN7android4base18CachedBoolPropertyC1ENSt3__112basic_stringIcNS2_11char_traitsIcEENS2_9allocatorIcEEEE"
+  },
+  {
+   "name" : "_ZN7android4base18CachedBoolPropertyC2ENSt3__112basic_stringIcNS2_11char_traitsIcEENS2_9allocatorIcEEEE"
+  },
+  {
    "name" : "_ZN7android4base18EndsWithIgnoreCaseENSt3__117basic_string_viewIcNS1_11char_traitsIcEEEES5_"
   },
   {
@@ -2305,6 +2317,21 @@
  ],
  "function_types" :
  [
+  {
+   "alignment" : 4,
+   "linker_set_key" : "_ZTIFNSt3__18optionalIbEEPKcE",
+   "name" : "std::optional<bool> (const char *)",
+   "parameters" :
+   [
+    {
+     "referenced_type" : "_ZTIPKc"
+    }
+   ],
+   "referenced_type" : "_ZTIFNSt3__18optionalIbEEPKcE",
+   "return_type" : "_ZTINSt3__18optionalIbEE",
+   "self_type" : "_ZTIFNSt3__18optionalIbEEPKcE",
+   "source_file" : "system/libbase/include/android-base/properties.h"
+  },
   {
    "alignment" : 4,
    "linker_set_key" : "_ZTIFvPKvRN3fmt2v726basic_format_parse_contextIcNS2_6detail13error_handlerEEERNS2_20basic_format_contextINS4_15buffer_appenderIcEEcEEE",
@@ -5317,6 +5344,67 @@
    "source_file" : "system/libbase/include/android-base/file.h"
   },
   {
+   "function_name" : "android::base::CachedBoolProperty::GetOptional",
+   "linker_set_key" : "_ZN7android4base18CachedBoolProperty11GetOptionalEv",
+   "parameters" :
+   [
+    {
+     "is_this_ptr" : true,
+     "referenced_type" : "_ZTIPN7android4base18CachedBoolPropertyE"
+    }
+   ],
+   "return_type" : "_ZTINSt3__18optionalIbEE",
+   "source_file" : "system/libbase/include/android-base/properties.h"
+  },
+  {
+   "function_name" : "android::base::CachedBoolProperty::Get",
+   "linker_set_key" : "_ZN7android4base18CachedBoolProperty3GetEb",
+   "parameters" :
+   [
+    {
+     "is_this_ptr" : true,
+     "referenced_type" : "_ZTIPN7android4base18CachedBoolPropertyE"
+    },
+    {
+     "referenced_type" : "_ZTIb"
+    }
+   ],
+   "return_type" : "_ZTIb",
+   "source_file" : "system/libbase/include/android-base/properties.h"
+  },
+  {
+   "function_name" : "android::base::CachedBoolProperty::CachedBoolProperty",
+   "linker_set_key" : "_ZN7android4base18CachedBoolPropertyC1ENSt3__112basic_stringIcNS2_11char_traitsIcEENS2_9allocatorIcEEEE",
+   "parameters" :
+   [
+    {
+     "is_this_ptr" : true,
+     "referenced_type" : "_ZTIPN7android4base18CachedBoolPropertyE"
+    },
+    {
+     "referenced_type" : "_ZTINSt3__112basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEE"
+    }
+   ],
+   "return_type" : "_ZTIv",
+   "source_file" : "system/libbase/include/android-base/properties.h"
+  },
+  {
+   "function_name" : "android::base::CachedBoolProperty::CachedBoolProperty",
+   "linker_set_key" : "_ZN7android4base18CachedBoolPropertyC2ENSt3__112basic_stringIcNS2_11char_traitsIcEENS2_9allocatorIcEEEE",
+   "parameters" :
+   [
+    {
+     "is_this_ptr" : true,
+     "referenced_type" : "_ZTIPN7android4base18CachedBoolPropertyE"
+    },
+    {
+     "referenced_type" : "_ZTINSt3__112basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEE"
+    }
+   ],
+   "return_type" : "_ZTIv",
+   "source_file" : "system/libbase/include/android-base/properties.h"
+  },
+  {
    "function_name" : "android::base::EndsWithIgnoreCase",
    "linker_set_key" : "_ZN7android4base18EndsWithIgnoreCaseENSt3__117basic_string_viewIcNS1_11char_traitsIcEEEES5_",
    "parameters" :
@@ -7221,6 +7309,15 @@
   },
   {
    "alignment" : 8,
+   "linker_set_key" : "_ZTIPFNSt3__18optionalIbEEPKcE",
+   "name" : "std::optional<bool> (*)(const char *)",
+   "referenced_type" : "_ZTIFNSt3__18optionalIbEEPKcE",
+   "self_type" : "_ZTIPFNSt3__18optionalIbEEPKcE",
+   "size" : 8,
+   "source_file" : "system/libbase/include/android-base/properties.h"
+  },
+  {
+   "alignment" : 8,
    "linker_set_key" : "_ZTIPFvPKvRN3fmt2v726basic_format_parse_contextIcNS2_6detail13error_handlerEEERNS2_20basic_format_contextINS4_15buffer_appenderIcEEcEEE",
    "name" : "void (*)(const void *, fmt::basic_format_parse_context<char> &, fmt::basic_format_context<fmt::detail::buffer_appender<char>, char> &)",
    "referenced_type" : "_ZTIFvPKvRN3fmt2v726basic_format_parse_contextIcNS2_6detail13error_handlerEEERNS2_20basic_format_contextINS4_15buffer_appenderIcEEcEEE",
@@ -8784,6 +8881,24 @@
    "self_type" : "_ZTIPN7android4base17ScopedLogSeverityE",
    "size" : 8,
    "source_file" : "system/libbase/include/android-base/logging.h"
+  },
+  {
+   "alignment" : 8,
+   "linker_set_key" : "_ZTIPN7android4base18CachedBoolPropertyE",
+   "name" : "android::base::CachedBoolProperty *",
+   "referenced_type" : "_ZTIN7android4base18CachedBoolPropertyE",
+   "self_type" : "_ZTIPN7android4base18CachedBoolPropertyE",
+   "size" : 8,
+   "source_file" : "system/libbase/include/android-base/properties.h"
+  },
+  {
+   "alignment" : 8,
+   "linker_set_key" : "_ZTIPN7android4base20CachedParsedPropertyIPFNSt3__18optionalIbEEPKcEEE",
+   "name" : "android::base::CachedParsedProperty<optional<bool> (*)(const char *)> *",
+   "referenced_type" : "_ZTIN7android4base20CachedParsedPropertyIPFNSt3__18optionalIbEEPKcEEE",
+   "self_type" : "_ZTIPN7android4base20CachedParsedPropertyIPFNSt3__18optionalIbEEPKcEEE",
+   "size" : 8,
+   "source_file" : "system/libbase/include/android-base/properties.h"
   },
   {
    "alignment" : 8,
@@ -12049,7 +12164,7 @@
   {
    "alignment" : 1,
    "linker_set_key" : "_ZTIN3fmt2v76detail10basic_dataIvEE",
-   "name" : "fmt::detail::basic_data<>",
+   "name" : "fmt::detail::basic_data<void>",
    "referenced_type" : "_ZTIN3fmt2v76detail10basic_dataIvEE",
    "self_type" : "_ZTIN3fmt2v76detail10basic_dataIvEE",
    "size" : 1,
@@ -17673,6 +17788,64 @@
    "self_type" : "_ZTIN7android4base17ScopedLogSeverityE",
    "size" : 4,
    "source_file" : "system/libbase/include/android-base/logging.h"
+  },
+  {
+   "alignment" : 8,
+   "fields" :
+   [
+    {
+     "access" : "private",
+     "field_name" : "cached_parsed_property_",
+     "referenced_type" : "_ZTIN7android4base20CachedParsedPropertyIPFNSt3__18optionalIbEEPKcEEE"
+    }
+   ],
+   "linker_set_key" : "_ZTIN7android4base18CachedBoolPropertyE",
+   "name" : "android::base::CachedBoolProperty",
+   "record_kind" : "class",
+   "referenced_type" : "_ZTIN7android4base18CachedBoolPropertyE",
+   "self_type" : "_ZTIN7android4base18CachedBoolPropertyE",
+   "size" : 208,
+   "source_file" : "system/libbase/include/android-base/properties.h"
+  },
+  {
+   "alignment" : 8,
+   "fields" :
+   [
+    {
+     "access" : "private",
+     "field_name" : "mutex_",
+     "referenced_type" : "_ZTINSt3__15mutexE"
+    },
+    {
+     "access" : "private",
+     "field_name" : "cached_property_",
+     "field_offset" : 320,
+     "referenced_type" : "_ZTIN7android4base14CachedPropertyE"
+    },
+    {
+     "access" : "private",
+     "field_name" : "cached_result_",
+     "field_offset" : 1536,
+     "referenced_type" : "_ZTINSt3__18optionalINS0_IbEEEE"
+    },
+    {
+     "access" : "private",
+     "field_name" : "parser_",
+     "field_offset" : 1600,
+     "referenced_type" : "_ZTIPFNSt3__18optionalIbEEPKcE"
+    }
+   ],
+   "linker_set_key" : "_ZTIN7android4base20CachedParsedPropertyIPFNSt3__18optionalIbEEPKcEEE",
+   "name" : "android::base::CachedParsedProperty<optional<bool> (*)(const char *)>",
+   "record_kind" : "class",
+   "referenced_type" : "_ZTIN7android4base20CachedParsedPropertyIPFNSt3__18optionalIbEEPKcEEE",
+   "self_type" : "_ZTIN7android4base20CachedParsedPropertyIPFNSt3__18optionalIbEEPKcEEE",
+   "size" : 208,
+   "source_file" : "system/libbase/include/android-base/properties.h",
+   "template_args" :
+   [
+    "_ZTIPFNSt3__18optionalIbEEPKcE"
+   ]
   },
   {
    "alignment" : 8,
