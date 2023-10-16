@@ -78,6 +78,7 @@ cc_library_headers {
         "//apex_available:platform",
     ],
     min_sdk_version: "29",
+    sdk_version: "current",
 }
 
 cc_defaults {
@@ -162,9 +163,19 @@ cc_library {
         "//apex_available:anyapex",
         "//apex_available:platform",
     ],
-    header_abi_checker: {
-        enabled: true,
-        ref_dump_dirs: ["abi-dumps"],
+    target: {
+        product: {
+            header_abi_checker: {
+                enabled: true,
+                ref_dump_dirs: ["abi-dumps"],
+            },
+        },
+        vendor: {
+            header_abi_checker: {
+                enabled: true,
+                ref_dump_dirs: ["abi-dumps"],
+            },
+        },
     },
 }
 
