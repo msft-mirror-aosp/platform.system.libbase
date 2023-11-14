@@ -313,7 +313,11 @@ bool ReadFully(borrowed_fd fd, void* data, size_t byte_count) {
   size_t remaining = byte_count;
   while (remaining > 0) {
     ssize_t n = TEMP_FAILURE_RETRY(read(fd.get(), p, remaining));
-    if (n <= 0) return false;
+    if (n == 0) {  // EOF
+      errno = ENODATA;
+      return false;
+    }
+    if (n == -1) return false;
     p += n;
     remaining -= n;
   }
@@ -358,7 +362,11 @@ bool ReadFullyAtOffset(borrowed_fd fd, void* data, size_t byte_count, off64_t of
   uint8_t* p = reinterpret_cast<uint8_t*>(data);
   while (byte_count > 0) {
     ssize_t n = TEMP_FAILURE_RETRY(pread(fd.get(), p, byte_count, offset));
-    if (n <= 0) return false;
+    if (n == 0) {  // EOF
+      errno = ENODATA;
+      return false;
+    }
+    if (n == -1) return false;
     p += n;
     byte_count -= n;
     offset += n;
