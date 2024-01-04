@@ -186,6 +186,10 @@ cc_library_static {
     stl: "c++_static",
     export_include_dirs: ["include"],
     whole_static_libs: ["fmtlib_ndk"],
+    apex_available: [
+        "//apex_available:platform",
+        "com.android.mediaprovider",
+    ],
 }
 
 // Tests
