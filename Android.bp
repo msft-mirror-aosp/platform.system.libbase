@@ -163,20 +163,6 @@ cc_library {
         "//apex_available:anyapex",
         "//apex_available:platform",
     ],
-    target: {
-        product: {
-            header_abi_checker: {
-                enabled: true,
-                ref_dump_dirs: ["abi-dumps"],
-            },
-        },
-        vendor: {
-            header_abi_checker: {
-                enabled: true,
-                ref_dump_dirs: ["abi-dumps"],
-            },
-        },
-    },
 }
 
 cc_library_static {
