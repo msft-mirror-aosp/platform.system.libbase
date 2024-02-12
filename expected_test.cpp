@@ -812,7 +812,7 @@ constexpr bool equals(const char* a, const char* b) {
 }
 
 TEST(Expected, testConstexpr) {
-  // Compliation error will occur if these expressions can't be
+  // Compilation error will occur if these expressions can't be
   // evaluated at compile time
   constexpr exp_int e(3);
   constexpr exp_int::unexpected_type err(3);
@@ -828,11 +828,13 @@ TEST(Expected, testConstexpr) {
   static_assert(exp_int(i).value() == 4);
   // copy construct from unexpected
   static_assert(exp_int(err).error() == 3);
-  // move costruct from unexpected
+  // move construct from unexpected
   static_assert(exp_int(unexpected(3)).error() == 3);
   // observers
   static_assert(*exp_int(3) == 3);
   static_assert(exp_int(3).has_value() == true);
+  static_assert(static_cast<bool>(exp_int(3)));
+  static_assert(!static_cast<bool>(exp_int(err)));
   static_assert(exp_int(3).value_or(4) == 3);
 
   typedef expected<const char*, int> exp_s;
