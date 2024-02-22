@@ -295,6 +295,15 @@ void StdioLogger(LogId, LogSeverity severity, const char* /*tag*/, const char* /
   }
 }
 
+LogFunction TeeLogger(LogFunction&& l1, LogFunction&& l2) {
+  return [l1 = std::move(l1), l2 = std::move(l2)](LogId id, LogSeverity severity, const char* tag,
+                                                  const char* file, unsigned int line,
+                                                  const char* message) {
+    l1(id, severity, tag, file, line, message);
+    l2(id, severity, tag, file, line, message);
+  };
+}
+
 void DefaultAborter(const char* abort_message) {
 #ifdef __ANDROID__
   android_set_abort_message(abort_message);
