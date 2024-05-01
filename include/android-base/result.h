@@ -126,6 +126,8 @@ struct Errno {
   }
 };
 
+static_assert(std::is_trivially_copyable_v<Errno> == true);
+
 template <typename E = Errno, bool include_message = true>
 struct ResultError {
   template <typename T, typename P, typename = std::enable_if_t<std::is_convertible_v<P, E>>>
@@ -308,8 +310,8 @@ inline ResultError<Errno> ErrorfImpl(fmt::format_string<Args...> fmt, const Args
 
 template <typename... Args>
 inline ResultError<Errno> ErrnoErrorfImpl(fmt::format_string<Args...> fmt, const Args&... args) {
-  return MakeResultErrorWithCode(fmt::vformat(fmt.get(), fmt::make_format_args(args...)),
-                                 Errno{errno});
+  Errno code{errno};
+  return MakeResultErrorWithCode(fmt::vformat(fmt.get(), fmt::make_format_args(args...)), code);
 }
 
 #define Errorf(fmt, ...) android::base::ErrorfImpl(FMT_STRING(fmt), ##__VA_ARGS__)
