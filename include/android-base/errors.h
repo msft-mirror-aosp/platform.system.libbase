@@ -72,38 +72,41 @@ std::string SystemErrorCodeToString(int error_code);
 // If implicit conversion compilation errors occur involving a value type with a templated
 // forwarding ref ctor, compilation with cpp20 or explicitly converting to the desired
 // return type is required.
-#define OR_RETURN(expr)                                                                 \
-  ({                                                                                    \
-    decltype(expr)&& tmp = (expr);                                                      \
-    typedef android::base::OkOrFail<std::remove_reference_t<decltype(tmp)>> ok_or_fail; \
-    if (!ok_or_fail::IsOk(tmp)) {                                                       \
-      return ok_or_fail::Fail(std::move(tmp));                                          \
-    }                                                                                   \
-    ok_or_fail::Unwrap(std::move(tmp));                                                 \
+#define OR_RETURN(expr)                                                                  \
+  ({                                                                                     \
+    decltype(expr)&& __or_return_expr = (expr);                                          \
+    typedef android::base::OkOrFail<std::remove_reference_t<decltype(__or_return_expr)>> \
+        ok_or_fail;                                                                      \
+    if (!ok_or_fail::IsOk(__or_return_expr)) {                                           \
+      return ok_or_fail::Fail(std::move(__or_return_expr));                              \
+    }                                                                                    \
+    ok_or_fail::Unwrap(std::move(__or_return_expr));                                     \
   })
 
 // Same as OR_RETURN, but aborts if expr is a failure.
 #if defined(__BIONIC__)
 #define OR_FATAL(expr)                                                                  \
   ({                                                                                    \
-    decltype(expr)&& tmp = (expr);                                                      \
-    typedef android::base::OkOrFail<std::remove_reference_t<decltype(tmp)>> ok_or_fail; \
-    if (!ok_or_fail::IsOk(tmp)) {                                                       \
-      __assert(__FILE__, __LINE__, ok_or_fail::ErrorMessage(tmp).c_str());              \
+    decltype(expr)&& __or_fatal_expr = (expr);                                          \
+    typedef android::base::OkOrFail<std::remove_reference_t<decltype(__or_fatal_expr)>> \
+        ok_or_fail;                                                                     \
+    if (!ok_or_fail::IsOk(__or_fatal_expr)) {                                           \
+      __assert(__FILE__, __LINE__, ok_or_fail::ErrorMessage(__or_fatal_expr).c_str());  \
     }                                                                                   \
-    ok_or_fail::Unwrap(std::move(tmp));                                                 \
+    ok_or_fail::Unwrap(std::move(__or_fatal_expr));                                     \
   })
 #else
 #define OR_FATAL(expr)                                                                  \
   ({                                                                                    \
-    decltype(expr)&& tmp = (expr);                                                      \
-    typedef android::base::OkOrFail<std::remove_reference_t<decltype(tmp)>> ok_or_fail; \
-    if (!ok_or_fail::IsOk(tmp)) {                                                       \
+    decltype(expr)&& __or_fatal_expr = (expr);                                          \
+    typedef android::base::OkOrFail<std::remove_reference_t<decltype(__or_fatal_expr)>> \
+        ok_or_fail;                                                                     \
+    if (!ok_or_fail::IsOk(__or_fatal_expr)) {                                           \
       fprintf(stderr, "%s:%d: assertion \"%s\" failed", __FILE__, __LINE__,             \
-              ok_or_fail::ErrorMessage(tmp).c_str());                                   \
+              ok_or_fail::ErrorMessage(__or_fatal_expr).c_str());                       \
       abort();                                                                          \
     }                                                                                   \
-    ok_or_fail::Unwrap(std::move(tmp));                                                 \
+    ok_or_fail::Unwrap(std::move(__or_fatal_expr));                                     \
   })
 #endif
 
@@ -136,8 +139,10 @@ struct OkOrFail {
   // template <typename U>
   // operator Result<U, E>()&& { return val_.error(); }
 
-  // Returns the string representation of the fail value.
-  static std::string ErrorMessage(const T& v);
+  // And there needs to be a method that returns the string representation of the fail value.
+  // static const std::string& ErrorMessage(const T& v);
+  // or
+  // static std::string ErrorMessage(const T& v);
 };
 
 }  // namespace base

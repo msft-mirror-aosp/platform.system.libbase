@@ -277,16 +277,10 @@ void KernelLogger(android::base::LogId, android::base::LogSeverity severity, con
 
 void StderrLogger(LogId, LogSeverity severity, const char* tag, const char* file, unsigned int line,
                   const char* message) {
-  struct tm now;
-  time_t t = time(nullptr);
-
-#if defined(_WIN32)
-  localtime_s(&now, &t);
-#else
-  localtime_r(&t, &now);
-#endif
+  struct timespec ts;
+  clock_gettime(CLOCK_REALTIME, &ts);
   auto output_string =
-      StderrOutputGenerator(now, getpid(), GetThreadId(), severity, tag, file, line, message);
+      StderrOutputGenerator(ts, getpid(), GetThreadId(), severity, tag, file, line, message);
 
   fputs(output_string.c_str(), stderr);
 }
@@ -299,6 +293,15 @@ void StdioLogger(LogId, LogSeverity severity, const char* /*tag*/, const char* /
   } else {
     fprintf(stdout, "%s\n", message);
   }
+}
+
+LogFunction TeeLogger(LogFunction&& l1, LogFunction&& l2) {
+  return [l1 = std::move(l1), l2 = std::move(l2)](LogId id, LogSeverity severity, const char* tag,
+                                                  const char* file, unsigned int line,
+                                                  const char* message) {
+    l1(id, severity, tag, file, line, message);
+    l2(id, severity, tag, file, line, message);
+  };
 }
 
 void DefaultAborter(const char* abort_message) {
