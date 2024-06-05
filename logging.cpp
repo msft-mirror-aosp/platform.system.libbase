@@ -100,7 +100,11 @@ static const char* GetFileBasename(const char* file) {
 #if defined(__linux__)
 static int OpenKmsg() {
 #if defined(__ANDROID__)
-  // pick up 'file /dev/kmsg w' environment from daemon's init rc file
+  // Pick up `file /dev/kmsg w` environment from a daemon's init .rc file.
+  // If you're wondering why you're not seeing kernel logs from your daemon,
+  // it's probably because you're missing that line in your .rc file!
+  // You'll also need to `allow <your_domain> kmsg_device:chr_file w_file_perms;`
+  // in `system/sepolocy/private/<your_domain>.te`.
   const auto val = getenv("ANDROID_FILE__dev_kmsg");
   if (val != nullptr) {
     int fd;
@@ -110,6 +114,8 @@ static int OpenKmsg() {
     }
   }
 #endif
+  // Note that this is _not_ the normal case: this is primarily for init itself.
+  // Most other code will need to inherit an fd from init, as described above.
   return TEMP_FAILURE_RETRY(open("/dev/kmsg", O_WRONLY | O_CLOEXEC));
 }
 #endif
@@ -277,16 +283,10 @@ void KernelLogger(android::base::LogId, android::base::LogSeverity severity, con
 
 void StderrLogger(LogId, LogSeverity severity, const char* tag, const char* file, unsigned int line,
                   const char* message) {
-  struct tm now;
-  time_t t = time(nullptr);
-
-#if defined(_WIN32)
-  localtime_s(&now, &t);
-#else
-  localtime_r(&t, &now);
-#endif
+  struct timespec ts;
+  clock_gettime(CLOCK_REALTIME, &ts);
   auto output_string =
-      StderrOutputGenerator(now, getpid(), GetThreadId(), severity, tag, file, line, message);
+      StderrOutputGenerator(ts, getpid(), GetThreadId(), severity, tag, file, line, message);
 
   fputs(output_string.c_str(), stderr);
 }
@@ -299,6 +299,15 @@ void StdioLogger(LogId, LogSeverity severity, const char* /*tag*/, const char* /
   } else {
     fprintf(stdout, "%s\n", message);
   }
+}
+
+LogFunction TeeLogger(LogFunction&& l1, LogFunction&& l2) {
+  return [l1 = std::move(l1), l2 = std::move(l2)](LogId id, LogSeverity severity, const char* tag,
+                                                  const char* file, unsigned int line,
+                                                  const char* message) {
+    l1(id, severity, tag, file, line, message);
+    l2(id, severity, tag, file, line, message);
+  };
 }
 
 void DefaultAborter(const char* abort_message) {
