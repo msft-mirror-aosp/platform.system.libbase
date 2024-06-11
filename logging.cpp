@@ -100,7 +100,11 @@ static const char* GetFileBasename(const char* file) {
 #if defined(__linux__)
 static int OpenKmsg() {
 #if defined(__ANDROID__)
-  // pick up 'file /dev/kmsg w' environment from daemon's init rc file
+  // Pick up `file /dev/kmsg w` environment from a daemon's init .rc file.
+  // If you're wondering why you're not seeing kernel logs from your daemon,
+  // it's probably because you're missing that line in your .rc file!
+  // You'll also need to `allow <your_domain> kmsg_device:chr_file w_file_perms;`
+  // in `system/sepolocy/private/<your_domain>.te`.
   const auto val = getenv("ANDROID_FILE__dev_kmsg");
   if (val != nullptr) {
     int fd;
@@ -110,6 +114,8 @@ static int OpenKmsg() {
     }
   }
 #endif
+  // Note that this is _not_ the normal case: this is primarily for init itself.
+  // Most other code will need to inherit an fd from init, as described above.
   return TEMP_FAILURE_RETRY(open("/dev/kmsg", O_WRONLY | O_CLOEXEC));
 }
 #endif
