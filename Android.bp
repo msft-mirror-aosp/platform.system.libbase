@@ -98,6 +98,7 @@ cc_defaults {
         "posix_strerror_r.cpp",
         "process.cpp",
         "properties.cpp",
+        "result.cpp",
         "stringprintf.cpp",
         "strings.cpp",
         "threads.cpp",
@@ -150,10 +151,7 @@ cc_library {
     recovery_available: true,
     host_supported: true,
     native_bridge_supported: true,
-    vndk: {
-        enabled: true,
-        support_system_process: true,
-    },
+    double_loadable: true,
     header_libs: [
         "libbase_headers",
     ],
