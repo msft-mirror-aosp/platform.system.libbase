@@ -251,7 +251,7 @@ TEST(result, unwrap_or_do) {
   EXPECT_FALSE(v);
 
   []() -> void {
-    bool v = UNWRAP_OR_DO(res, Result<bool>(ResultError("foo", 17)), {
+    UNWRAP_OR_DO(res, Result<bool>(ResultError("foo", 17)), {
       EXPECT_EQ(res.error().message(), "foo");
       EXPECT_EQ(res.error().code(), 17);
       return;
