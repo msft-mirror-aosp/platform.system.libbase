@@ -89,11 +89,11 @@ template std::string Join(const std::vector<std::string>&, const std::string&);
 template std::string Join(const std::vector<const char*>&, const std::string&);
 
 bool StartsWith(std::string_view s, std::string_view prefix) {
-  return s.substr(0, prefix.size()) == prefix;
+  return s.starts_with(prefix);
 }
 
 bool StartsWith(std::string_view s, char prefix) {
-  return !s.empty() && s.front() == prefix;
+  return s.starts_with(prefix);
 }
 
 bool StartsWithIgnoreCase(std::string_view s, std::string_view prefix) {
@@ -101,11 +101,11 @@ bool StartsWithIgnoreCase(std::string_view s, std::string_view prefix) {
 }
 
 bool EndsWith(std::string_view s, std::string_view suffix) {
-  return s.size() >= suffix.size() && s.substr(s.size() - suffix.size(), suffix.size()) == suffix;
+  return s.ends_with(suffix);
 }
 
 bool EndsWith(std::string_view s, char suffix) {
-  return !s.empty() && s.back() == suffix;
+  return s.ends_with(suffix);
 }
 
 bool EndsWithIgnoreCase(std::string_view s, std::string_view suffix) {
