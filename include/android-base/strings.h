@@ -164,11 +164,8 @@ std::string Join(ContainerT&& things, SeparatorT separator) {
 extern template std::string Join(std::vector<std::string>&, char);
 extern template std::string Join(std::vector<std::string>&, const char*);
 extern template std::string Join(std::vector<std::string>&&, const char*);
-extern template std::string Join(const std::vector<const char*>&, char);
-extern template std::string Join(const std::vector<const char*>&, const std::string&);
 extern template std::string Join(const std::vector<std::string>&, char);
 extern template std::string Join(const std::vector<std::string>&, const char*);
-extern template std::string Join(const std::vector<std::string>&, const std::string&);
 extern template std::string Join(const std::vector<std::string>&&, const char*);
 extern template std::string Join(std::set<std::string>&, const char*);
 extern template std::string Join(const std::set<std::string>&, char);
