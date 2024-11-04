@@ -81,12 +81,23 @@ template std::string Trim(const std::string&&);
 template std::string Trim(std::string_view&);
 template std::string Trim(std::string_view&&);
 
-// These cases are probably the norm, so we mark them extern in the header to
-// aid compile time and binary size.
-template std::string Join(const std::vector<std::string>&, char);
+// These cases were measured either to be used during build by more than one binary, or during
+// runtime as a significant portion of total calls.
+// Instantiate them to aid compile time and binary size.
+template std::string Join(std::vector<std::string>&, char);
+template std::string Join(std::vector<std::string>&, const char*);
+template std::string Join(std::vector<std::string>&&, const char*);
 template std::string Join(const std::vector<const char*>&, char);
-template std::string Join(const std::vector<std::string>&, const std::string&);
 template std::string Join(const std::vector<const char*>&, const std::string&);
+template std::string Join(const std::vector<std::string>&, char);
+template std::string Join(const std::vector<std::string>&, const char*);
+template std::string Join(const std::vector<std::string>&, const std::string&);
+template std::string Join(const std::vector<std::string>&&, const char*);
+template std::string Join(std::set<std::string>&, const char*);
+template std::string Join(const std::set<std::string>&, char);
+template std::string Join(const std::set<std::string>&, const char*);
+template std::string Join(const std::unordered_set<std::string>&, const char*);
+
 
 bool StartsWith(std::string_view s, std::string_view prefix) {
   return s.starts_with(prefix);
