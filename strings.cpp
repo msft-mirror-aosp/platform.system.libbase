@@ -69,11 +69,6 @@ std::vector<std::string> Tokenize(const std::string& s, const std::string& delim
   return result;
 }
 
-[[deprecated("Retained only for binary compatibility (symbol name)")]]
-std::string Trim(const std::string& s) {
-  return Trim(std::string_view(s));
-}
-
 template std::string Trim(const char*&);
 template std::string Trim(const char*&&);
 template std::string Trim(const std::string&);
