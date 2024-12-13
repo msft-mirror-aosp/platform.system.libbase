@@ -433,14 +433,14 @@ class LogMessageData {
  public:
   LogMessageData(const char* file, unsigned int line, LogSeverity severity, const char* tag,
                  int error)
-      : file_(GetFileBasename(file)),
+      : file_(file),
         line_number_(line),
         severity_(severity),
         tag_(tag),
         error_(error) {}
 
   const char* GetFile() const {
-    return file_;
+    return GetFileBasename(file_);
   }
 
   unsigned int GetLineNumber() const {
