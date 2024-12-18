@@ -19,8 +19,11 @@
 #include <string>
 #include <vector>
 
+#include <android-base/silent_death_test.h>
 #include <android-base/strings.h>
 #include <gtest/gtest.h>
+
+using logging_splitters_DeathTest = SilentDeathTest;
 
 namespace android {
 namespace base {
@@ -234,7 +237,7 @@ TEST(logging_splitters, LogdChunkSplitter_WithFile) {
 // We set max_size based off of tag, so if it's too large, the buffer will be sized wrong.
 // We could recover from this, but it's certainly an error for someone to attempt to use a tag this
 // large, so we abort instead.
-TEST(logging_splitters, LogdChunkSplitter_TooLongTag) {
+TEST_F(logging_splitters_DeathTest, LogdChunkSplitter_TooLongTag) {
   auto long_tag = std::string(5000, 'x');
   auto logger_function = [](LogId, LogSeverity, const char*, const char*) {};
   ASSERT_DEATH(
