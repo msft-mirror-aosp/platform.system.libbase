@@ -324,3 +324,9 @@ cc_fuzz {
         componentid: 128577,
     },
 }
+
+dirgroup {
+    name: "trusty_dirgroup_system_libbase",
+    dirs: ["."],
+    visibility: ["//trusty/vendor/google/aosp/scripts"],
+}
