@@ -173,6 +173,7 @@ cc_library_static {
     whole_static_libs: ["fmtlib_ndk"],
     apex_available: [
         "//apex_available:platform",
+        "com.android.media",
         "com.android.mediaprovider",
     ],
 }
